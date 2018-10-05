@@ -1,0 +1,26 @@
+.base: &base
+  roles:
+    - app
+  port: 22
+  forwardAgent: true
+  sshOptions:
+    UserKnownHostsFile: /dev/null
+    StrictHostKeyChecking: no
+
+stage.customer.tld:
+  <<: *base
+  hostname: 10.0.0.1
+  user: user
+  stage: staging
+  branch: staging
+  shop_host: stage.customer.tld
+  deploy_path: /var/www/stage.customer.tld
+
+www.customer.tld:
+  <<: *base
+  hostname: 10.0.0.2
+  user: user
+  stage: production
+  branch: master
+  shop_host: www.customer.tld
+  deploy_path: /var/www/www.customer.tld
