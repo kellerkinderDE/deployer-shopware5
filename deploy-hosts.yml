@@ -15,7 +15,10 @@ stage.customer.tld:
   branch: staging
   shop_host: stage.customer.tld
   deploy_path: /var/www/stage.customer.tld
-
+  shop_name: DEV!!!
+  shop_title: DEV!!!
+  shop_path: ""
+  
 www.customer.tld:
   <<: *base
   hostname: 10.0.0.2
@@ -24,3 +27,6 @@ www.customer.tld:
   branch: master
   shop_host: www.customer.tld
   deploy_path: /var/www/www.customer.tld
+  shop_name: DEV!!!
+  shop_title: DEV!!!
+  shop_path: ""
