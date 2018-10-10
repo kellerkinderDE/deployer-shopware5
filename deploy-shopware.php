@@ -197,9 +197,12 @@ task(
             'cd {{shopware_public_path}} && {{bin/php}} bin/console k10r:plugin:install --activate K10rStaging'
         );
         run(
-            'cd {{shopware_public_path}} && {{bin/php}} bin/console k10r:store:update --name "DEV!!!" --title "DEV!!!" --host "' . get(
-                'shop_host'
-            ) . '" --path ""'
+            sprintf('cd {{shopware_public_path}} && {{bin/php}} bin/console k10r:store:update --host %s --path %s --name %s --title %s',
+                escapeshellarg(get('shop_host')),
+                escapeshellarg(get('shop_path')),
+                escapeshellarg(get('shop_name')),
+                escapeshellarg(get('shop_title'))
+            )
         );
     }
 )->desc('Set staging configuration');
