@@ -25,8 +25,8 @@ This file defines the basic configuration via deployers `set`-method. Make sure 
 * `repository`: URL to the repository you want to deploy.
 * `bin/php`: Absolute path to the php executable on your server.
 * `bin/composer`: Path to composer. Adjust if you do not want to use the composer.phar.
-* `shopware_download_path`: URL to the shopware installations package you want to deploy.
-* `shopware_update_version`: Shopware version you want to update to. Will be used to check wether the current installations needs to be updated.
+* `shopware_download_path`: URL to the shopware installation package you want to deploy.
+* `shopware_update_version`: Shopware version you want to update to. Will be used to check wether the current installation needs to be updated.
 * `shopware_update_path`: URL to shopware update package you want to update to.
 * `plugins`: An array of plugins that will be installed and updated during deployment. Those plugins need to be present in the codebase.
 * `theme_config`: An array of theme configuration settings that will be set during deployment.
@@ -84,7 +84,7 @@ The staging task will for example install and activate `K10rStaging` which will 
 
 This task also sets the shop name and title to `DEV!!!` via `k10r:store:update`.
 
-These tasks are usally used to set plugin configurations differing between stage and production, e.g. PayPal in production or sandbox mode. Or to deactivate a tracking plugin that will only be used production.
+These tasks are usually used to set plugin configurations differing between stage and production, e.g. PayPal in production or sandbox mode. Or to deactivate a tracking plugin that will only be used production.
 
 
 ## Directories on the server
