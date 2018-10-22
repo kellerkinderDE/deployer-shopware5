@@ -141,6 +141,17 @@ task(
                 "cd {{shopware_public_path}} && {{bin/php}} bin/console k10r:plugin:install --activate {$plugin}"
             );
         }
+        foreach (get('plugin_config') as $pluginName => $pluginConfig) {
+            run(
+                sprintf(
+                    "cd {{shopware_public_path}} && {{bin/php}} bin/console sw:plugin:config:set %s %s %s %s",
+                    $pluginName,
+                    $pluginConfig['name'],
+                    $pluginConfig['value'],
+                    isset($pluginConfig['shopId']) ? "--shop {$pluginConfig['shopId']}" : ""
+                )
+            );
+        }
     }
 )->desc('Install Shopware plugins after deployment. Configure plugins via deploy.php.');
 
@@ -158,13 +169,18 @@ task(
         run(
             "cd {{shopware_public_path}} && {{bin/php}} bin/console sw:theme:synchronize -q"
         );
-        foreach (get('theme_config') as $setting => $value) {
-            run(
-            /**
-             * Adjust YourCustomTheme to your theme name
-             */
-                "cd {{shopware_public_path}} && {{bin/php}} bin/console k10r:theme:update -q --theme YourCustomTheme --shop 1 --setting {$setting} --value {$value}"
-            );
+        foreach (get('theme_config') as $themeName => $themeSettings) {
+            foreach ($themeSettings as $setting) {
+                run(
+                    sprintf(
+                        "cd {{shopware_public_path}} && {{bin/php}} bin/console k10r:theme:update -q --theme %s --setting %s --value %s %s",
+                        $themeName,
+                        $setting['name'],
+                        $setting['value'],
+                        isset($setting['shopId']) ? "--shop {$setting['shopId']}" : ""
+                    )
+                );
+            }
         }
     }
 )->desc('Configure theme via deploy.php');

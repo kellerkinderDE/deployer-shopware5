@@ -59,10 +59,7 @@ This will reset the OPCache using `cachetool.phar` and the `fcgi_sockets` specif
 This will (re)install `K10rDeployment` which gives us some useful commands for the deployment process. Afterwards it deactivates `SwagUpdate` since we do not want anyone to install an update via backend.
 And most importantly it installs and updates all plugins specified in the `plugins` variable in `deploy.php`.
 
-This task should also be used to set plugin configurations that should be the same on all stages like this:
-```
-run("cd {{shopware_public_path}} && {{bin/php}} bin/console sw:plugin:config:set SwagImportExport useCommaDecimal 0");
-```
+This task will also configure plugins according to the `plugin_config` variable in `deploy.php`.
 
 #### kellerkinder:shopware:config
 This step will import and update the snippets defined via `K10rProject`. It will also be used to set configurations that should be the same in all stages. Since this is highly individual there are no configs set in this basic configuration.

@@ -49,12 +49,32 @@ set(
 );
 
 /**
+ * Use this to set plugin configurations during deployment
+ */
+set(
+    'plugin_config',
+    [
+//        'SwagImportExport' => [
+//            'name' => 'useCommaDecimal',
+//            'value' => 0,
+//            'shopId' => 1, // shopId is optional
+//        ],
+    ]
+);
+
+/**
  * Use this to set theme configurations during deployment
  */
 set(
     'theme_config',
     [
-        //'offcanvasCart' => '0',
+//        'YourCustomThemeName' => [
+//            [
+//                'name' => 'offcanvasCart',
+//                'value' => 0,
+//                'shopId' => 1, // shopId is optional
+//            ]
+//        ],
     ]
 );
 
