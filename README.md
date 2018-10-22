@@ -5,7 +5,7 @@ This repository contains a [deployer](https://deployer.org/) configuration for s
 ## Preparations
 
 ### Repository
-Download the latest [composer.phar](https://getcomposer.org/download/) and [deployer.phar](https://deployer.org/download) to the ``bin`` directory.
+Copy the contents of this repository to your shop project. Within your shop project download the latest [composer.phar](https://getcomposer.org/download/) and [deployer.phar](https://deployer.org/download) to the ``bin`` directory.
 Also download the latest [cachetool.phar](https://gordalina.github.io/cachetool/) if you need to reset an OPCache.
 
 The `web` directory will be used as shopware root directory. Place all custom files for your shopware project here, e.g. plugins and custom themes.
