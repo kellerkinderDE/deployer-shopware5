@@ -159,6 +159,16 @@ task(
     'kellerkinder:shopware:config',
     function () {
         run("cd {{shopware_public_path}} && {{bin/php}} bin/console k10r:snippets:update");
+        foreach (get('shopware_config') as $config) {
+            run(
+                sprintf(
+                    run("cd {{shopware_public_path}} && {{bin/php}} bin/console k10r:config:set %s %s %s"),
+                    $config['name'],
+                    $config['value'],
+                    isset($config['shopId']) ? "--shop {$config['shopId']}" : ""
+                )
+            );
+        }
     }
 )->desc('Update snippets and set Shopware core configuration');
 

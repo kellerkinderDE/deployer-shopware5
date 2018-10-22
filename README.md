@@ -62,16 +62,10 @@ And most importantly it installs and updates all plugins specified in the `plugi
 This task will also configure plugins according to the `plugin_config` variable in `deploy.php`.
 
 #### kellerkinder:shopware:config
-This step will import and update the snippets defined via `K10rProject`. It will also be used to set configurations that should be the same in all stages. Since this is highly individual there are no configs set in this basic configuration.
-Feel free to add configuration settings like this:
-```
-run("cd {{shopware_public_path}} && {{bin/php}} bin/console k10r:config:set disableShopwareStatistics 1");
-```
-This would disable the internal shopware statistics. For more information on how to set configurations check [K10rDeployment](https://github.com/kellerkinderDE/K10rDeployment).
+This step will import and update the snippets defined via `K10rProject`. It will also be used to set configurations that should be the same in all stages. Add your own configurations via `shopware_config` in `deploy.php`.
+For more information on how to set configurations check [K10rDeployment](https://github.com/kellerkinderDE/K10rDeployment).
 
-
-
-#### kellerkinder:shopware:cache'
+#### kellerkinder:shopware:cache
 Clears the cache using `sw:cache:clear` and compiles the themes afterwards. Can also be used to warm up the cache which is not activated by default. It can be activated by setting `warm_cache_after_deployment` to `true` in the `deploy.php`.
 
 ### kellerkinder:shopware:production and kellerkinder:shopware:staging
@@ -82,7 +76,6 @@ The staging task will for example install and activate `K10rStaging` which will 
 This task also sets the shop name and title to `DEV!!!` via `k10r:store:update`. This is configurable in the `deploy-hosts.yml`.
 
 These tasks are usually used to set plugin configurations differing between stage and production, e.g. PayPal in production or sandbox mode. Or to deactivate a tracking plugin that will only be used production.
-
 
 ## Directories on the server
 Within your deploy path deployer will create several directories:

@@ -79,6 +79,21 @@ set(
 );
 
 /**
+ * Use this to set shopware configurations during deployment
+ */
+set(
+    'shopware_config',
+    [
+//        [
+//            'name' => 'disableShopwareStatistics',
+//            'value' => 1,
+//            'shopId' => 1, // shopId is optional
+//        ],
+    ]
+);
+
+
+/**
  * Enable and adjust the socket if you need to reset OPCache
  */
 //add('fcgi_sockets', ['/var/run/php-fpm.sock']);
