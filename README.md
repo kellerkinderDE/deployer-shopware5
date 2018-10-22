@@ -89,12 +89,12 @@ Within your deploy path deployer will create several directories:
 
 * `.dep`: Information about the releases
 * `current`: Symlink that will always be linked to the latest release.
-* `releases`: This directory contains the last 10 releases. Configure how many releases are kept via `keep_releases` in `deploy-shopware-php`. 
+* `releases`: This directory contains the last 10 releases. If you want to keep more or less releases simply overwrite this setting in `deploy.php`. 
 * `shared/media`: Place your media files here. deployer will symlink them into the shopware root directory across all releases.
 * `shared/files`: Same as above but for the document and download files.
 * `shared/web`: Place your `config.php` here. Also a good place for the `.htaccess` if it's not identical to the one shippied with shopware.
 
-The shared directories and files are configured in `deploy-shopware.php`.
+The shared directories and files are configured in `deploy-shopware.php`. You can add more by using `add` in the `deploy.php`, e.g. `add('shared_files', ['{{shopware_public_dir}}/.htaccess']);`.
 
 ## GitLab CI
 
