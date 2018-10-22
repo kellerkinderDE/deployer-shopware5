@@ -75,7 +75,7 @@ This would disable the internal shopware statistics. For more information on how
 
 
 #### kellerkinder:shopware:cache'
-Clears the cache using `sw:cache:clear` and compiles the themes afterwards. Can also be used to warm up the cache which is not activated by default. See code comments.
+Clears the cache using `sw:cache:clear` and compiles the themes afterwards. Can also be used to warm up the cache which is not activated by default. It can be activated by setting `warm_cache_after_deployment` to `true` in the `deploy.php`.
 
 ### kellerkinder:shopware:production and kellerkinder:shopware:staging
 These two commands are used to set configurations that differ between the stages.

@@ -174,10 +174,10 @@ task(
     function () {
         run('cd {{shopware_public_path}} && {{bin/php}} bin/console sw:cache:clear -q');
         run('cd {{shopware_public_path}} && {{bin/php}} bin/console k10r:theme:compile -q');
-        /**
-         * Warming the cache may take some time therefore it is not enabled by default. Enable if you wish to warm up the cache after every deployment.
-         */
-//        run('cd {{shopware_public_path}} && {{bin/php}} bin/console sw:warm:http:cache -c -q');
+
+        if (get('warm_cache_after_deployment', false)) {
+            run('cd {{shopware_public_path}} && {{bin/php}} bin/console sw:warm:http:cache -c -q');
+        }
     }
 )->desc('Clear Shopware cache and warm up HTTP cache');
 

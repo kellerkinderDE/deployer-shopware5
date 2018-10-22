@@ -14,6 +14,11 @@ set('ssh_multiplexing', true);
 set('writable_use_sudo', false);
 
 /**
+ * Warming the cache may take some time therefore it is not enabled by default. Set to true if you wish to warm up the cache after every deployment.
+ */
+set('warm_cache_after_deployment', false);
+
+/**
  * Adjust the path to the php executable if necessary
  */
 set('bin/php', '/usr/bin/php');
