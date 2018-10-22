@@ -79,7 +79,7 @@ These two commands are used to set configurations that differ between the stages
 
 The staging task will for example install and activate `K10rStaging` which will show a notice that the user is in a staging environment and catch mails.
 
-This task also sets the shop name and title to `DEV!!!` via `k10r:store:update`.
+This task also sets the shop name and title to `DEV!!!` via `k10r:store:update`. This is configurable in the `deploy-hosts.yml`.
 
 These tasks are usually used to set plugin configurations differing between stage and production, e.g. PayPal in production or sandbox mode. Or to deactivate a tracking plugin that will only be used production.
 
@@ -89,12 +89,12 @@ Within your deploy path deployer will create several directories:
 
 * `.dep`: Information about the releases
 * `current`: Symlink that will always be linked to the latest release.
-* `releases`: This directory contains the last 10 releases. Configure how many releases are kept via `keep_releases` in `deploy-shopware-php`. 
+* `releases`: This directory contains the last 10 releases. If you want to keep more or less releases simply overwrite this setting in `deploy.php`. 
 * `shared/media`: Place your media files here. deployer will symlink them into the shopware root directory across all releases.
 * `shared/files`: Same as above but for the document and download files.
 * `shared/web`: Place your `config.php` here. Also a good place for the `.htaccess` if it's not identical to the one shippied with shopware.
 
-The shared directories and files are configured in `deploy-shopware.php`.
+The shared directories and files are configured in `deploy-shopware.php`. You can add more by using `add` in the `deploy.php`, e.g. `add('shared_files', ['{{shopware_public_dir}}/.htaccess']);`.
 
 ## GitLab CI
 
