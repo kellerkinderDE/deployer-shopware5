@@ -111,8 +111,8 @@ task(
     'kellerkinder:vendors',
     function () {
         foreach ([
-                     'k10r/staging:1.0.0',
-                     'k10r/deployment:1.1.0',
+                     'k10r/staging:1.0.2',
+                     'k10r/deployment:1.2.0',
                  ] as $dependency) {
             run(
                 "cd {{shopware_public_path}} && {{bin/composer}} require --optimize-autoloader --prefer-dist --no-ansi --update-no-dev {$dependency}"
