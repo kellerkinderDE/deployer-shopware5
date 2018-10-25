@@ -55,9 +55,11 @@ set(
     'plugin_config',
     [
 //        'SwagImportExport' => [
-//            'name' => 'useCommaDecimal',
-//            'value' => 0,
-//            'shopId' => 1, // shopId is optional
+//            [
+//                'name' => 'useCommaDecimal',
+//                'value' => 0,
+//                'shopId' => 1, // shopId is optional
+//            ],
 //        ],
     ]
 );

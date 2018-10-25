@@ -29,7 +29,9 @@ This file defines the basic configuration via deployers `set`-method. Make sure 
 * `shopware_update_version`: Shopware version you want to update to. Will be used to check wether the current installation needs to be updated.
 * `shopware_update_path`: URL to shopware update package you want to update to.
 * `plugins`: An array of plugins that will be installed and updated during deployment. Those plugins need to be present in the codebase.
+* `plugin_config`: An array of plugin configuration settings that will be set during deployment.
 * `theme_config`: An array of theme configuration settings that will be set during deployment.
+* `shopware_config`: An array of shopware configuration settings that will be set during deployment.
 * `fcgi_sockets`: An array of fcgi_sockets that will be used to reset the OPCache.
 
 ## kellerkinder tasks (deploy-shopware.php)
@@ -82,7 +84,7 @@ Within your deploy path deployer will create several directories:
 
 * `.dep`: Information about the releases
 * `current`: Symlink that will always be linked to the latest release.
-* `releases`: This directory contains the last 10 releases. If you want to keep more or less releases simply overwrite this setting in `deploy.php`. 
+* `releases`: This directory contains the last 10 releases. If you want to keep more or less releases simply overwrite the `keep_releases` setting via `deploy.php`. 
 * `shared/media`: Place your media files here. deployer will symlink them into the shopware root directory across all releases.
 * `shared/files`: Same as above but for the document and download files.
 * `shared/web`: Place your `config.php` here. Also a good place for the `.htaccess` if it's not identical to the one shippied with shopware.
