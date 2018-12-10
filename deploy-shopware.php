@@ -111,7 +111,7 @@ task(
     'kellerkinder:vendors',
     function () {
         foreach ([
-                     'k10r/staging:1.0.2',
+                     'k10r/staging:1.0.3',
                      'k10r/deployment:1.2.0',
                  ] as $dependency) {
             run(
