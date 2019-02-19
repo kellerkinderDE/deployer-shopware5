@@ -115,7 +115,7 @@ task(
                      'k10r/deployment:1.2.0',
                  ] as $dependency) {
             run(
-                "cd {{shopware_public_path}} && {{bin/composer}} require --optimize-autoloader --prefer-dist --no-ansi --update-no-dev {$dependency}"
+                "cd {{shopware_public_path}} && {{bin/composer}} require --optimize-autoloader --prefer-dist --no-ansi --update-no-dev --no-scripts {$dependency}"
             );
         }
     }
