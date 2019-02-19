@@ -3,6 +3,7 @@
     - app
   port: 22
   forwardAgent: true
+  composer_options: install --verbose --prefer-dist --no-progress --no-interaction --no-dev --optimize-autoloader --no-scripts
   sshOptions:
     UserKnownHostsFile: /dev/null
     StrictHostKeyChecking: no
