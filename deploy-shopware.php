@@ -201,7 +201,7 @@ task(
     'kellerkinder:shopware:cache',
     function () {
         run('cd {{shopware_public_path}} && {{bin/php}} bin/console sw:cache:clear -q');
-        run('cd {{shopware_public_path}} && {{bin/php}} bin/console k10r:theme:compile -q');
+        run('cd {{shopware_public_path}} && {{bin/php}} bin/console sw:theme:cache:generate -q');
 
         if (get('warm_cache_after_deployment', false)) {
             run('cd {{shopware_public_path}} && {{bin/php}} bin/console sw:warm:http:cache -c -q');
