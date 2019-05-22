@@ -164,7 +164,7 @@ task(
         foreach (get('shopware_config') as $config) {
             run(
                 sprintf(
-                    run("cd {{shopware_public_path}} && {{bin/php}} bin/console k10r:config:set %s %s %s"),
+                    "cd {{shopware_public_path}} && {{bin/php}} bin/console k10r:config:set %s %s %s",
                     $config['name'],
                     $config['value'],
                     isset($config['shopId']) ? "--shop {$config['shopId']}" : ""
