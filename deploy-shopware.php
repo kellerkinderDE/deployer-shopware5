@@ -182,14 +182,13 @@ task(
             "cd {{shopware_public_path}} && {{bin/php}} bin/console sw:theme:synchronize -q"
         );
         foreach (get('theme_config') as $themeName => $themeSettings) {
-            foreach ($themeSettings as $setting) {
+            foreach ($themeSettings as $setting => $value) {
                 run(
                     sprintf(
-                        "cd {{shopware_public_path}} && {{bin/php}} bin/console k10r:theme:update -q --theme %s --setting %s --value %s %s",
+                        "cd {{shopware_public_path}} && {{bin/php}} bin/console k10r:theme:update -q --theme '%s' --setting '%s' --value '%s' %s",
                         $themeName,
-                        $setting['name'],
-                        $setting['value'],
-                        isset($setting['shopId']) ? "--shop {$setting['shopId']}" : ""
+                        $setting,
+                        $value
                     )
                 );
             }
