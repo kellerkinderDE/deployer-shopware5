@@ -10,7 +10,7 @@ Also download the latest [cachetool.phar](https://gordalina.github.io/cachetool/
 
 The `web` directory will be used as shopware root directory. Place all custom files for your shopware project here, e.g. plugins and custom themes.
 
-We recommend to use [K10rProject](https://github.com/kellerkinderDE/K10rProject) for database migrations and snippet management so this config depends on it. Please add it to your repository if you want to use it. However if you don't need it you will need to remove it from the plugin list in `deploy.php` and remove the command `k10r:snippets:update` in the task `kellerkinder:shopware:config`.
+We recommend to use [K10rProject](https://github.com/kellerkinderDE/K10rProject) for database migrations (via [NetcomMigrations](https://github.com/eTribes-Connect-GmbH/NetcomMigrations)) and snippet management so this config depends on it. Please add it to your repository if you want to use it. However if you don't need it you will need to remove it from the plugin list in `deploy.php` and remove the command `k10r:snippets:update` in the task `kellerkinder:shopware:config`.
 
 ## Configurations
 

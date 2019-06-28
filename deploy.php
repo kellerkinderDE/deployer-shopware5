@@ -44,6 +44,7 @@ set(
     'plugins',
     [
         'Cron',
+        'NetcomMigrations',
         'K10rProject',
     ]
 );

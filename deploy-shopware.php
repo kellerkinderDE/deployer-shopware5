@@ -161,6 +161,7 @@ task(
     'kellerkinder:shopware:config',
     function () {
         run("cd {{shopware_public_path}} && {{bin/php}} bin/console k10r:snippets:update");
+        run("cd {{shopware_public_path}} && {{bin/php}} bin/console netcom:migrations:migrate:up");
         foreach (get('shopware_config') as $config) {
             run(
                 sprintf(
