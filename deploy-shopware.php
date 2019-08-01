@@ -145,7 +145,7 @@ task(
             foreach ($pluginConfigs as $pluginConfig) {
                 run(
                     sprintf(
-                        "cd {{shopware_public_path}} && {{bin/php}} bin/console sw:plugin:config:set %s %s %s %s",
+                        "cd {{shopware_public_path}} && {{bin/php}} bin/console sw:plugin:config:set %s %s \"%s\" %s",
                         $pluginName,
                         $pluginConfig['name'],
                         $pluginConfig['value'],
