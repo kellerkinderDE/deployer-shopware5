@@ -72,11 +72,7 @@ set(
     'theme_config',
     [
 //        'YourCustomThemeName' => [
-//            [
-//                'name' => 'offcanvasCart',
-//                'value' => 0,
-//                'shopId' => 1, // shopId is optional
-//            ]
+//            'offcanvasCart' => 0,
 //        ],
     ]
 );
