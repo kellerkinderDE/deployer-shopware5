@@ -1,0 +1,23 @@
+{
+    "name": "k10r/example-plugin",
+    "description": "example plugin for Shopware 6",
+    "version": "1.0.0",
+    "type": "shopware-plugin",
+    "license": "MIT",
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "authors": [
+        {
+            "name": "Kellerkinder Pluginwerk GmbH",
+            "email": "hallo@pluginwerk.de",
+            "homepage": "https://www.pluginwerk.de",
+            "role": "Contributor"
+        }
+    ],
+    "extra": {
+        "installer-name": "K10rExamplePlugin"
+    },
+    "require": {
+        "php": "^7.2"
+    }
+}

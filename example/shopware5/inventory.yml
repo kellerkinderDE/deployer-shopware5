@@ -8,22 +8,41 @@
     UserKnownHostsFile: /dev/null
     StrictHostKeyChecking: no
 
-stage.customer.tld:
+stage.customer.tld: &remote_base
   <<: *base
   hostname: 10.0.0.1
-  user: user
+  user: root
+  http_user: root
   stage: staging
   branch: staging
   shop_host: stage.customer.tld
-  deploy_path: /var/www/stage.customer.tld
   shop_name: DEV!!!
   shop_title: DEV!!!
   shop_path: ""
-  
+  cachetool: /var/run/php5-fpm.sock
+  rsync_src: /tmp/build
+  deploy_path: /var/www/stage.customer.tld
+  rsync_dest: '{{release_path}}'
+
 www.customer.tld:
-  <<: *base
+  <<: *remote_base
   hostname: 10.0.0.2
-  user: user
   stage: production
   branch: master
+  shop_host: www.customer.tld
+  shop_name: LIVE!!!
+  shop_title: LIVE!!!
+  cachetool: /var/run/php5-fpm.sock
   deploy_path: /var/www/www.customer.tld
+
+
+localhost:
+  <<: *base
+  local: true
+  hostname: localhost
+  user: root
+  http_user: root
+  stage: test
+  rsync_src: /tmp/build
+  deploy_path: /tmp/deploy
+  rsync_dest: '{{release_path}}'
