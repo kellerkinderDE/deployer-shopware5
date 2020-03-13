@@ -1,6 +1,13 @@
 {
-    "minimum-stability": "beta",
-    "require": {
-        "deployer/deployer": "^5.0"
+  "name": "k10r/deployer",
+  "license": "MIT",
+  "description": "",
+  "authors": [
+    {
+      "name": "Kellerkinder GmbH",
+      "role": "Developer",
+      "email": "hallo@kellerkinder.de",
+      "homepage": "https://kellerkinder.de"
     }
+  ]
 }

@@ -1,1 +1,2 @@
-vendor
+/.idea
+/example/*/.gitlab-ci.yml
