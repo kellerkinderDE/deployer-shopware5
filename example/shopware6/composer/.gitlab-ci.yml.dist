@@ -1,0 +1,23 @@
+stages:
+  - build
+
+services:
+  - mysql:5
+
+variables:
+  MYSQL_DATABASE: ci_db_sw6
+  MYSQL_USER: shopware
+  MYSQL_PASSWORD: app
+  MYSQL_ROOT_PASSWORD: root
+
+
+build-sw6:
+  stage: build
+  image: kellerkinder/deployer:sw6
+  services:
+    - name: mysql:5.7
+      alias: mysql
+  script:
+    - composer install -q
+    - php vendor/bin/dep deploy test -vvv
+    - ls -la /tmp/deploy/current/ # ensure that everythin worked fine

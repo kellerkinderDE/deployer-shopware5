@@ -7,8 +7,8 @@ on:
 #    branches: [ master ]
 
 jobs:
-  test-sw5:
-    name: Test SW5
+  test-sw5-default:
+    name: Test SW5 Default
     runs-on: ubuntu-latest
     container: kellerkinder/deployer:sw5
     services:
@@ -27,13 +27,38 @@ jobs:
           mysql --host mysql -uroot -proot -e "SHOW DATABASES"
       - name: execute
         run: |
-          cd $GITHUB_WORKSPACE/example/shopware5
+          cd $GITHUB_WORKSPACE/example/shopware5/default
           composer install -q
           cat composer.json
           php vendor/bin/dep deploy test -vvv
           ls -la /tmp/deploy/current/
-  test-sw6:
-    name: Test SW6
+  test-sw5-composer:
+    name: Test SW5 Composer
+    runs-on: ubuntu-latest
+    container: kellerkinder/deployer:sw5
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: ci_db_sw5
+        ports:
+          - 3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+    steps:
+      - uses: actions/checkout@v1
+      - name: Verify MySQL connection from container
+        run: |
+          mysql --host mysql -uroot -proot -e "SHOW DATABASES"
+      - name: execute
+        run: |
+          cd $GITHUB_WORKSPACE/example/shopware5/composer
+          composer install -q
+          cat composer.json
+          php vendor/bin/dep deploy test -vvv
+          ls -la /tmp/deploy/current/
+  test-sw6-default:
+    name: Test SW6 Default
     runs-on: ubuntu-latest
     container: kellerkinder/deployer:sw6
     services:
@@ -52,7 +77,33 @@ jobs:
           mysql --host mysql -uroot -proot -e "SHOW DATABASES"
       - name: execute
         run: |
-          cd $GITHUB_WORKSPACE/example/shopware6
+          cd $GITHUB_WORKSPACE/example/shopware6/default
+          composer install -q
+          cat composer.json
+          php vendor/bin/dep deploy test -vvv
+          ls -la /tmp/deploy/current/
+
+  test-sw6-composer:
+    name: Test SW6 Composer
+    runs-on: ubuntu-latest
+    container: kellerkinder/deployer:sw6
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: ci_db_sw6
+        ports:
+          - 3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+    steps:
+      - uses: actions/checkout@v1
+      - name: Verify MySQL connection from container
+        run: |
+          mysql --host mysql -uroot -proot -e "SHOW DATABASES"
+      - name: execute
+        run: |
+          cd $GITHUB_WORKSPACE/example/shopware6/composer
           composer install -q
           cat composer.json
           php vendor/bin/dep deploy test -vvv

@@ -1,0 +1,15 @@
+{
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/kellerkinderDE/deployer",
+            "branch": "feature/noticket_enhanced"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "deployer/deployer": "^6.7",
+        "deployer/recipes": "^6.2",
+        "k10r/deployer": "*"
+    }
+}

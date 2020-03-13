@@ -1,2 +1,4 @@
 /.idea
-/example/*/.gitlab-ci.yml
+/example/**/.gitlab-ci.yml
+/example/**/vendor
+/example/**/composer.lock
