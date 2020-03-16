@@ -1,15 +1,5 @@
 {
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/kellerkinderDE/deployer",
-            "branch": "feature/INT-1103"
-        }
-    ],
     "minimum-stability": "dev",
-    "require": {
-        "k10r/deployer": "*"
-    },
     "require-dev": {
         "deployer/deployer": "^6.7",
         "deployer/recipes": "^6.2"

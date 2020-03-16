@@ -2,6 +2,10 @@
 
 namespace Deployer;
 
+require 'recipe/common.php';
+require 'recipe/rsync.php';
+require 'recipe/cachetool.php';
+
 set('console', 'bin/console');
 set('shopware_build_path', '/tmp/build');
 
@@ -29,7 +33,7 @@ task('shopware5:install:execute', function () {
     run('touch {{shopware_build_path}}/recovery/install/data/install.lock');
 })->setPrivate()->isLocal();
 
-task('shopware5:update', function () {
+task('shopware5:update:local', function () {
     if (test('cd {{shopware_build_path}} && {{bin/php}} bin/console k10r:update:needed {{shopware_target_version}} -q')) {
         run('curl -sL {{shopware_update_url}} -o {{shopware_build_path}}/download.zip');
         run('mkdir update-temp');
@@ -43,7 +47,23 @@ task('shopware5:update', function () {
         run('mkdir -p {{shopware_build_path}}/recovery/install/data');
         run('touch {{shopware_build_path}}/recovery/install/data/install.lock');
     }
-})->setPrivate()->isLocal();
+});
+
+task('shopware5:update:remote', function () {
+    if (test('cd {{release_path}} && {{bin/php}} bin/console k10r:update:needed {{shopware_target_version}} -q')) {
+        run('curl -sL {{shopware_update_url}} -o {{release_path}}/download.zip');
+        run('mkdir update-temp');
+        run('cd {{release_path}} && unzip -qq download.zip -d update-temp && rm download.zip');
+        run('rsync --ignore-existing --recursive update-temp/ {{release_path}}/');
+        run('rm -rf update-temp');
+
+        run('cd {{release_path}} && {{bin/php}} recovery/update/index.php -n');
+        run('rm -rf {{release_path}}/update-assets');
+        run('rm -rf {{release_path}}/recovery');
+        run('mkdir -p {{release_path}}/recovery/install/data');
+        run('touch {{release_path}}/recovery/install/data/install.lock');
+    }
+});
 //endregion
 
 //region plugin commands
@@ -63,13 +83,13 @@ task('shopware5:plugins:install:remote', function () {
 });
 
 task('shopware5:plugins:require:deployment:local', function () {
-    foreach (get('deployment_plugins') as $dependency) {
+    foreach (get('composer_plugins') as $dependency) {
         run("cd {{shopware_build_path}} && {{bin/composer}} -q require --ignore-platform-reqs --optimize-autoloader --prefer-dist --no-ansi --update-no-dev --no-scripts {$dependency}");
     }
 })->desc('Add required composer-based Shopware plugins for deployment in deployment environment')->setPrivate()->isLocal();
 
 task('shopware5:plugins:require:deployment:remote', function () {
-    foreach (get('deployment_plugins') as $dependency) {
+    foreach (get('composer_plugins') as $dependency) {
         run("cd {{release_path}} && {{bin/composer}} -q require --ignore-platform-reqs --optimize-autoloader --prefer-dist --no-ansi --update-no-dev --no-scripts {$dependency}");
     }
 })->desc('Add required composer-based Shopware plugins for deployment on remote server')->setPrivate()->isLocal();
@@ -192,9 +212,9 @@ task('deploy', [
     'shopware:build:prepare',
     'shopware5:install:download',
     'shopware5:install:execute',
+    'shopware5:update:local',
     'shopware:filesystem:deploy',
     'shopware5:plugins:require:deployment:local',
-    'shopware5:update',
     'shopware5:plugins:install:local',
     'shopware5:config:plugins:local',
     'shopware5:config:shop:local',
@@ -218,6 +238,7 @@ task('deploy:staging', [
     'deploy',
     'shopware5:plugins:require:deployment:remote',
     'deploy:symlink',
+    'shopware5:update:remote',
     'shopware5:plugins:install:remote',
     'shopware5:config:plugins:remote',
     'shopware5:config:shop:remote',
@@ -234,6 +255,7 @@ task('deploy:production', [
     'deploy',
     'shopware5:plugins:require:deployment:remote',
     'deploy:symlink',
+    'shopware5:update:remote',
     'shopware5:plugins:install:remote',
     'shopware5:config:plugins:remote',
     'shopware5:config:shop:remote',

@@ -2,10 +2,7 @@
 
 namespace Deployer;
 
-require 'recipe/common.php';
-require 'recipe/rsync.php';
-require 'recipe/cachetool.php';
-require 'vendor/k10r/deployer/src/shopware/shopware6.php';
+require 'deploy-shopware6.php';
 
 // Deployer specific
 set('application', 'my_shopware6_project');
@@ -31,16 +28,25 @@ set('allow_anonymous_stats', false);
 set('keep_releases', 10);
 
 // Shopware / deployment specific
-set('execute_update', false);
 set('shopware_install_url', 'https://www.shopware.com/de/Download/redirect/version/sw6/file/install_6.1.3_1582123990.zip');
-set('shopware_update_url', 'https://www.shopware.com/de/Download/redirect/version/sw6/file/install_6.1.3_1582123990.zip');
+set('shopware_update_url', 'https://www.shopware.com/de/Download/redirect/version/sw6/file/update_6.1.3_1582123990.zip');
+set('shopware_target_version', '6.1.3'); // Change to check if update is required
 // source => target -- Will copy the source into the target during build
-set('deploy_filesystem', ['web']);
-set('plugins', ['K10rExamplePlugin']);
+set('source_directory', 'web');
+set('plugins', [
+    'K10rExamplePlugin',
+]);
 
+/**
+ * Warming the cache may take some time therefore it is not enabled by default. Set to true if you wish to warm up the cache after every deployment.
+ */
+set('warm_cache_after_deployment', false);
 
-// etc
+// TODO: Add CLI helper to set shop/theme/plugin configuration
 
-after('deploy:failed', 'deploy:unlock');
+/**
+ * Uncomment if you want to be able to redeploy after errors without human interaction
+ */
+//after('deploy:failed', 'deploy:unlock');
 
 inventory('inventory.yml');

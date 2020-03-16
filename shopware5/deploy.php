@@ -2,9 +2,6 @@
 
 namespace Deployer;
 
-require 'recipe/common.php';
-require 'recipe/rsync.php';
-require 'recipe/cachetool.php';
 require 'deploy-shopware5.php';
 
 // Deployer specific
@@ -38,7 +35,7 @@ set('plugins', [
     //'K10rProject',
 ]);
 
-set('deployment_plugins', [
+set('composer_plugins', [
     'k10r/staging:1.0.3',
     'k10r/deployment:1.2.0',
 ]);
