@@ -1,6 +1,6 @@
 {
     "name": "k10r/example-plugin",
-    "description": "example plugin for Shopware 6",
+    "description": "Example plugin for Shopware 6",
     "version": "1.0.0",
     "type": "shopware-platform-plugin",
     "license": "MIT",
@@ -8,9 +8,9 @@
     "prefer-stable": true,
     "authors": [
         {
-            "name": "Kellerkinder Pluginwerk GmbH",
-            "email": "hallo@pluginwerk.de",
-            "homepage": "https://www.pluginwerk.de",
+            "name": "Kellerkinder GmbH",
+            "email": "hallo@kellerkinder.de",
+            "homepage": "https://www.kellerkinder.de",
             "role": "Contributor"
         }
     ],
@@ -24,14 +24,14 @@
     },
     "extra": {
         "shopware-plugin-class": "K10rExamplePlugin\\K10rExamplePlugin",
-        "copyright": "(c) Kellerkinder Pluginwerk GmbH (publ)",
+        "copyright": "(c) Kellerkinder GmbH",
         "label": {
-            "de-DE": "K10r Example Plugin",
-            "en-GB": "K10r Example Plugin"
+            "de-DE": "Example Plugin",
+            "en-GB": "Example Plugin"
         },
         "description": {
-            "de-DE": "K10r Example Plugin für Shopware 6",
-            "en-GB": "K10r Example Plugin for Shopware 6 "
+            "de-DE": "Example Plugin für Shopware 6",
+            "en-GB": "Example Plugin for Shopware 6 "
         }
     },
     "autoload": {

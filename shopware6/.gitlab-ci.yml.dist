@@ -1,9 +1,6 @@
 stages:
   - build
 
-services:
-  - mysql:5
-
 variables:
   MYSQL_DATABASE: ci_db
   MYSQL_USER: shopware
@@ -11,9 +8,9 @@ variables:
   MYSQL_ROOT_PASSWORD: root
 
 
-build-sw5:
+build-sw6:
   stage: build
-  image: kellerkinder/deployer:sw5
+  image: edbizarro/gitlab-ci-pipeline-php:7.2-alpine
   services:
     - name: mysql:5.7
       alias: mysql

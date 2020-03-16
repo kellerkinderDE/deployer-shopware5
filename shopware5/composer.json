@@ -1,0 +1,7 @@
+{
+    "minimum-stability": "dev",
+    "require-dev": {
+        "deployer/deployer": "^6.7",
+        "deployer/recipes": "^6.2"
+    }
+}

@@ -1,6 +1,6 @@
 {
     "name": "k10r/example-plugin",
-    "description": "example plugin for Shopware 6",
+    "description": "Example plugin for Shopware 5",
     "version": "1.0.0",
     "type": "shopware-plugin",
     "license": "MIT",
@@ -8,9 +8,9 @@
     "prefer-stable": true,
     "authors": [
         {
-            "name": "Kellerkinder Pluginwerk GmbH",
-            "email": "hallo@pluginwerk.de",
-            "homepage": "https://www.pluginwerk.de",
+            "name": "Kellerkinder GmbH",
+            "email": "hallo@kellerkinder.de",
+            "homepage": "https://www.kellerkinder.de",
             "role": "Contributor"
         }
     ],

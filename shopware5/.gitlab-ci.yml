@@ -1,23 +1,19 @@
 stages:
   - build
 
-services:
-  - mysql:5
-
 variables:
   MYSQL_DATABASE: ci_db
   MYSQL_USER: shopware
   MYSQL_PASSWORD: app
   MYSQL_ROOT_PASSWORD: root
 
-
-build-sw6:
+build-sw5:
   stage: build
-  image: kellerkinder/deployer:sw6
+  image: edbizarro/gitlab-ci-pipeline-php:7.2-alpine
   services:
     - name: mysql:5.7
       alias: mysql
   script:
     - composer install -q
-    - php vendor/bin/dep deploy test -vvv
-    - ls -la /tmp/deploy/current/ # ensure that everythin worked fine
+    - php vendor/bin/dep deploy:test test -vvv
+    - ls -la /tmp/deploy/current/ # ensure that everything worked fine
