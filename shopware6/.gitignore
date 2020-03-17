@@ -1,1 +1,9 @@
-vendor
+/web/*
+!/web/config/
+/web/config/*
+!/web/config/packages
+/web/config/packages/*
+!/web/config/packages/shopware.yml
+!/web/custom/
+!/web/composer.*
+/vendor/
