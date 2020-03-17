@@ -48,8 +48,8 @@ task('shopware6:install:download', function() {
 })->setPrivate()->local();
 
 task('shopware6:install:execute', function() {
-    run(sprintf('cd {{shopware_build_path}} && {{bin/php}} {{console}} system:setup --database-url=%s --generate-jwt-keys -nq', getenv('DATABASE_URL')));
-    run('cd {{shopware_build_path}} && {{bin/php}} {{console}} system:install -fnq --create-database');
+    run(sprintf('cd {{shopware_build_path}} && php {{console}} system:setup --database-url=mysql://%s:%s@%s:3306/%s --generate-jwt-keys -nvvv', getenv('MYSQL_USER'), getenv('MYSQL_PASSWORD'), getenv('MYSQL_SERVER') , getenv('MYSQL_DATABASE')));
+    run('cd {{shopware_build_path}} && php {{console}} system:install -fnq --create-database');
 })->setPrivate()->local();
 
 task('shopware6:update', function () {
@@ -75,29 +75,29 @@ task('shopware6:build:production', function() {
 
 //region plugin commands
 task('shopware6:plugins:install:local', function () {
-    run('cd {{shopware_build_path}} && {{bin/php}} {{console}} plugin:refresh');
+    run('cd {{shopware_build_path}} && php {{console}} plugin:refresh');
     foreach (get('plugins') as $plugin) {
-        run("cd {{shopware_build_path}} && {{bin/php}} {{console}} plugin:install {$plugin} --activate");
+        run("cd {{shopware_build_path}} && php {{console}} plugin:install {$plugin} --activate");
     }
-    run('cd {{shopware_build_path}} && {{bin/php}} {{console}} cache:clear');
+    run('cd {{shopware_build_path}} && php {{console}} cache:clear');
 })->setPrivate()->local();
 
 task('shopware6:plugins:install:remote', function () {
-    run('cd {{release_path}} && {{bin/php}} {{console}} plugin:refresh');
+    run('cd {{release_path}} && {{sudo_cmd}} {{bin/php}} {{console}} plugin:refresh');
     foreach (get('plugins') as $plugin) {
-        run("cd {{release_path}} && {{bin/php}} {{console}} plugin:install {$plugin} --activate");
+        run("cd {{release_path}} && {{sudo_cmd}} {{bin/php}} {{console}} plugin:install {$plugin} --activate");
     }
 });
 //endregion
 
 task('shopware6:cache:warm:local', function () {
-    run('cd {{release_path}} && {{bin/php}} {{console}} cache:clear -q');
-    run('cd {{release_path}} && {{bin/php}} {{console}} theme:compile -q');
+    run('cd {{release_path}} && {{sudo_cmd}} {{bin/php}} {{console}} cache:clear -q');
+    run('cd {{release_path}} && {{sudo_cmd}} {{bin/php}} {{console}} theme:compile -q');
 });
 
 task('shopware6:cache:warm:remote', function () {
     if (get('warm_cache_after_deployment', false)) {
-        run('cd {{release_path}} && {{bin/php}} {{console}} http:cache:warm:up');
+        run('cd {{release_path}} && {{sudo_cmd}} {{bin/php}} {{console}} http:cache:warm:up');
     }
 });
 

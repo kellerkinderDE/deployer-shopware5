@@ -6,7 +6,7 @@ require 'deploy-shopware6.php';
 
 // Deployer specific
 set('application', 'my_shopware6_project');
-set('php', '/usr/local/bin/php');
+set('bin/php', '/opt/bitnami/php/bin/php');
 add('shared_files', ['.env']);
 add('executable_files', ['bin/console']);
 add('shared_dirs', [
