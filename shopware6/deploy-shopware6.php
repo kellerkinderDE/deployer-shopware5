@@ -8,10 +8,13 @@ require 'recipe/cachetool.php';
 
 set('console', 'bin/console');
 set('shopware_build_path', '/tmp/build');
-set('build_script_storefront', 'bin/build-storefront.sh');
-set('build_script_administration', 'bin/build-administration.sh');
+set('build_script', 'bin/build-js.sh');
 set('rsync', [
     'exclude'      => [
+        'files/',
+        'var/cache/',
+        'var/log/',
+        '.env',
         '.git',
         'deploy.php',
     ],
@@ -31,22 +34,23 @@ set('rsync', [
 
 task('shopware:build:prepare', function () {
     run('mkdir -p {{shopware_build_path}}');
-})->isLocal();
+})->setPrivate()->local();
 
 task('shopware:filesystem:deploy', function () {
     run("cp -r {{source_directory}}/* {{shopware_build_path}}/");
-})->isLocal();
+    run("cp -r {{source_directory}}/.* {{shopware_build_path}}/");
+})->setPrivate()->local();
 
 //region install/update
 task('shopware6:install:download', function() {
     run('curl -sL {{shopware_install_url}} -o {{shopware_build_path}}/download.zip');
     run('cd {{shopware_build_path}} && unzip -qq download.zip && rm -rf download.zip');
-})->isLocal();
+})->setPrivate()->local();
 
 task('shopware6:install:execute', function() {
-    run('cp -r .env.dist {{shopware_build_path}}/.env');
+    run(sprintf('cd {{shopware_build_path}} && {{bin/php}} {{console}} system:setup --database-url=%s --generate-jwt-keys -nq', getenv('DATABASE_URL')));
     run('cd {{shopware_build_path}} && {{bin/php}} {{console}} system:install -fnq --create-database');
-})->isLocal();
+})->setPrivate()->local();
 
 task('shopware6:update', function () {
     // TODO: Add CLI helper to check installed version and compare to target version. Download and run update if necessary.
@@ -64,30 +68,9 @@ task('shopware6:update', function () {
 //endregion
 
 //region build commands
-//region production
-/** @see https://github.com/shopware/production */
-task('shopware6:build:production:prepare', function() {
-    run('cd {{shopware_build_path}} && npm install --silent --prefix vendor/shopware/administration/Resources/');
-    run('cd {{shopware_build_path}} && npm run --silent --prefix vendor/shopware/administration/Resources lerna -- bootstrap');
-    run('cd {{shopware_build_path}} && npm install --silent --prefix vendor/shopware/administration/Resources/app/administration/build/nuxt-component-library/');
-})->desc('[SW6] - [BUILD] Storefront')->isLocal();
-
-task('shopware6:build:production:storefront', function() {
-    run('cd {{shopware_build_path}} && {{build_script_storefront}}');
-})->desc('[SW6] - [BUILD] Storefront')->isLocal();
-
-task('shopware6:build:production:administration', function() {
-    run('cd {{shopware_build_path}} && {{build_script_administration}}');
-})->desc('[SW6] - [BUILD] Administration')->isLocal();
-
-task('shopware6:build:production:all',
-    [
-        'shopware6:build:production:prepare',
-        'shopware6:build:production:storefront',
-        'shopware6:build:production:administration'
-    ]
-)->desc('Prepare and build storefront and administration')->isLocal();
-//endregion
+task('shopware6:build:production', function() {
+    run('cd {{shopware_build_path}} && {{build_script}}');
+})->desc('[SW6] - [BUILD] Compilation')->setPrivate()->local();
 //endregion
 
 //region plugin commands
@@ -97,7 +80,7 @@ task('shopware6:plugins:install:local', function () {
         run("cd {{shopware_build_path}} && {{bin/php}} {{console}} plugin:install {$plugin} --activate");
     }
     run('cd {{shopware_build_path}} && {{bin/php}} {{console}} cache:clear');
-})->isLocal();
+})->setPrivate()->local();
 
 task('shopware6:plugins:install:remote', function () {
     run('cd {{release_path}} && {{bin/php}} {{console}} plugin:refresh');
@@ -107,10 +90,12 @@ task('shopware6:plugins:install:remote', function () {
 });
 //endregion
 
-task('shopware6:cache:warm', function () {
+task('shopware6:cache:warm:local', function () {
     run('cd {{release_path}} && {{bin/php}} {{console}} cache:clear -q');
     run('cd {{release_path}} && {{bin/php}} {{console}} theme:compile -q');
+});
 
+task('shopware6:cache:warm:remote', function () {
     if (get('warm_cache_after_deployment', false)) {
         run('cd {{release_path}} && {{bin/php}} {{console}} http:cache:warm:up');
     }
@@ -123,7 +108,8 @@ task('deploy', [
     'shopware6:install:execute',
     'shopware:filesystem:deploy',
     'shopware6:plugins:install:local',
-    'shopware6:build:production:all',
+    'shopware6:build:production',
+    'shopware6:cache:warm:local',
     'deploy:prepare',
     'deploy:lock',
     'deploy:release',
@@ -147,6 +133,7 @@ task('deploy:staging', [
     'shopware6:update',
     'shopware6:plugins:install:remote',
     'cachetool:clear:opcache',
+    'shopware6:cache:warm:remote',
     'deploy:unlock',
     'cleanup',
     'success',
@@ -157,6 +144,7 @@ task('deploy:production', [
     'shopware6:update',
     'shopware6:plugins:install:remote',
     'cachetool:clear:opcache',
+    'shopware6:cache:warm:remote',
     'deploy:unlock',
     'cleanup',
     'success',

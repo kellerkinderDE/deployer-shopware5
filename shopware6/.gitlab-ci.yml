@@ -6,15 +6,13 @@ variables:
   MYSQL_USER: shopware
   MYSQL_PASSWORD: app
   MYSQL_ROOT_PASSWORD: root
-  DATABASE_URL: mysql://root:root@mysql:3306/ci_db
+  DATABASE_URL: mysql://shopware:app@mysql:3306/ci_db
 
 build-sw6:
   stage: build
   image: edbizarro/gitlab-ci-pipeline-php:7.2-alpine
   services:
     - name: mysql:5.7
-      alias: mysql
   script:
     - composer install -q
-    - php vendor/bin/dep deploy:test test -vvv
-    - ls -la /tmp/deploy/current/ # ensure that everything worked fine
+    - php vendor/bin/dep deploy:production production -vvv

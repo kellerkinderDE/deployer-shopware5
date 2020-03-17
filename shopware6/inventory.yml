@@ -12,16 +12,11 @@ stage.customer.tld: &remote_base
   <<: *base
   hostname: 10.0.0.1
   user: root
-  http_user: root
   stage: staging
   branch: staging
-  shop_host: stage.customer.tld
-  shop_name: DEV!!!
-  shop_title: DEV!!!
-  shop_path: ""
   cachetool: /var/run/php5-fpm.sock
   deploy_path: /var/www/stage.customer.tld
-  rsync_src: /tmp/build
+  rsync_src: '{{shopware_build_path}}'
   rsync_dest: '{{release_path}}'
 
 www.customer.tld:
@@ -29,11 +24,10 @@ www.customer.tld:
   hostname: 10.0.0.2
   stage: production
   branch: master
-  shop_host: www.customer.tld
   cachetool: /var/run/php5-fpm.sock
-  shop_name: LIVE!!!
-  shop_title: LIVE!!!
   deploy_path: /var/www/www.customer.tld
+  rsync_src: '{{shopware_build_path}}'
+  rsync_dest: '{{release_path}}'
 
 localhost:
   <<: *base
@@ -43,5 +37,5 @@ localhost:
   http_user: root
   stage: test
   deploy_path: /tmp/deploy
-  rsync_src: /tmp/build
+  rsync_src: '{{shopware_build_path}}'
   rsync_dest: '{{release_path}}'

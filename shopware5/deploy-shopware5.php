@@ -11,17 +11,17 @@ set('shopware_build_path', '/tmp/build');
 
 task('shopware:build:prepare', function () {
     run('mkdir -p {{shopware_build_path}}');
-})->setPrivate()->isLocal();
+})->setPrivate()->local();
 
 task('shopware:filesystem:deploy', function () {
     run("cp -r {{source_directory}}/* {{shopware_build_path}}/");
-})->setPrivate()->isLocal();
+})->setPrivate()->local();
 
 //region install/update
 task('shopware5:install:download', function () {
     run('curl -sL {{shopware_install_url}} -o {{shopware_build_path}}/download.zip');
     run('cd {{shopware_build_path}} && unzip -qq download.zip && rm -rf download.zip');
-})->setPrivate()->isLocal();
+})->setPrivate()->local();
 
 task('shopware5:install:execute', function () {
     run('cd {{shopware_build_path}} && {{php}} {{shopware_build_path}}/recovery/install/index.php --no-interaction \
@@ -31,7 +31,7 @@ task('shopware5:install:execute', function () {
     --admin-password="some-password" --admin-email="test@example.com" --admin-name="Test Admin" \
     --admin-locale="de_DE"');
     run('touch {{shopware_build_path}}/recovery/install/data/install.lock');
-})->setPrivate()->isLocal();
+})->setPrivate()->local();
 
 task('shopware5:update:local', function () {
     if (test('cd {{shopware_build_path}} && {{bin/php}} bin/console k10r:update:needed {{shopware_target_version}} -q')) {
@@ -73,7 +73,7 @@ task('shopware5:plugins:install:local', function () {
         run("cd {{shopware_build_path}} && {{bin/php}} {{console}} sw:plugin:install {$plugin} --activate");
     }
     run('cd {{shopware_build_path}} && {{bin/php}} {{console}} sw:cache:clear');
-})->setPrivate()->isLocal();
+})->setPrivate()->local();
 
 task('shopware5:plugins:install:remote', function () {
     run('cd {{release_path}} && {{bin/php}} {{console}} sw:plugin:refresh -q');
@@ -86,13 +86,13 @@ task('shopware5:plugins:require:deployment:local', function () {
     foreach (get('composer_plugins') as $dependency) {
         run("cd {{shopware_build_path}} && {{bin/composer}} -q require --ignore-platform-reqs --optimize-autoloader --prefer-dist --no-ansi --update-no-dev --no-scripts {$dependency}");
     }
-})->desc('Add required composer-based Shopware plugins for deployment in deployment environment')->setPrivate()->isLocal();
+})->desc('Add required composer-based Shopware plugins for deployment in deployment environment')->setPrivate()->local();
 
 task('shopware5:plugins:require:deployment:remote', function () {
     foreach (get('composer_plugins') as $dependency) {
         run("cd {{release_path}} && {{bin/composer}} -q require --ignore-platform-reqs --optimize-autoloader --prefer-dist --no-ansi --update-no-dev --no-scripts {$dependency}");
     }
-})->desc('Add required composer-based Shopware plugins for deployment on remote server')->setPrivate()->isLocal();
+})->desc('Add required composer-based Shopware plugins for deployment on remote server')->setPrivate()->local();
 //endregion
 
 //region Config
@@ -110,7 +110,7 @@ task('shopware5:config:plugins:local', function () {
             );
         }
     }
-})->setPrivate()->isLocal();
+})->setPrivate()->local();
 
 task('shopware5:config:plugins:remote', function () {
     foreach (get('plugin_config') as $pluginName => $pluginConfigs) {
@@ -140,7 +140,7 @@ task('shopware5:config:theme:local', function () {
             ));
         }
     }
-})->desc('Configure theme on deployment environment')->setPrivate()->isLocal();
+})->desc('Configure theme on deployment environment')->setPrivate()->local();
 
 task('shopware5:config:theme:remote', function () {
     run("cd {{release_path}} && {{bin/php}} {{console}} sw:theme:synchronize -q");
@@ -166,7 +166,7 @@ task('shopware5:config:shop:local', function () {
             isset($config['shopId']) ? "--shop {$config['shopId']}" : ''
         ));
     }
-})->desc('Update snippets and set Shopware core configuration in deployment environment')->setPrivate()->isLocal();
+})->desc('Update snippets and set Shopware core configuration in deployment environment')->setPrivate()->local();
 
 task('shopware5:config:shop:remote', function () {
     run("cd {{release_path}} && {{bin/php}} {{console}} k10r:snippets:update");
