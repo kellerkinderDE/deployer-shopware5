@@ -90,10 +90,10 @@ task('shopware6:plugins:install:remote', function () {
 });
 //endregion
 
-task('shopware6:cache:warm:local', function () {
-    run('cd {{release_path}} && {{sudo_cmd}} {{bin/php}} {{console}} cache:clear -q');
-    run('cd {{release_path}} && {{sudo_cmd}} {{bin/php}} {{console}} theme:compile -q');
-});
+task('shopware6:theme:compile', function () {
+    run('cd {{shopware_build_path}} && php {{console}} cache:clear -q');
+    run('cd {{shopware_build_path}} && php {{console}} theme:compile -q');
+})->setPrivate()->local();
 
 task('shopware6:cache:warm:remote', function () {
     if (get('warm_cache_after_deployment', false)) {
@@ -109,7 +109,7 @@ task('deploy', [
     'shopware:filesystem:deploy',
     'shopware6:plugins:install:local',
     'shopware6:build:production',
-    'shopware6:cache:warm:local',
+    'shopware6:theme:compile',
     'deploy:prepare',
     'deploy:lock',
     'deploy:release',
@@ -132,7 +132,6 @@ task('deploy:staging', [
     'deploy',
     'shopware6:update',
     'shopware6:plugins:install:remote',
-    'cachetool:clear:opcache',
     'shopware6:cache:warm:remote',
     'deploy:unlock',
     'cleanup',
@@ -143,7 +142,6 @@ task('deploy:production', [
     'deploy',
     'shopware6:update',
     'shopware6:plugins:install:remote',
-    'cachetool:clear:opcache',
     'shopware6:cache:warm:remote',
     'deploy:unlock',
     'cleanup',

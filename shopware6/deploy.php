@@ -6,7 +6,8 @@ require 'deploy-shopware6.php';
 
 // Deployer specific
 set('application', 'my_shopware6_project');
-set('bin/php', '/opt/bitnami/php/bin/php');
+set('bin/php', '/usr/bin/php');
+set('sudo_cmd', ''); // add a sudo command like sudo -u username if needed
 add('shared_files', ['.env']);
 add('executable_files', ['bin/console']);
 add('shared_dirs', [
@@ -48,5 +49,10 @@ set('warm_cache_after_deployment', false);
  * Uncomment if you want to be able to redeploy after errors without human interaction
  */
 //after('deploy:failed', 'deploy:unlock');
+
+/**
+ * Uncomment if you need to clear opcache during deployment. Remember to also set the cachetool parameter per host in the inventory.yml. E.g.: cachetool: /var/run/php5-fpm.sock
+ */
+//after('shopware6:plugins:install:remote', 'cachetool:clear:opcache');
 
 inventory('inventory.yml');

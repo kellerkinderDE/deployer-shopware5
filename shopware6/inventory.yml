@@ -39,3 +39,4 @@ localhost:
   deploy_path: /tmp/deploy
   rsync_src: '{{shopware_build_path}}'
   rsync_dest: '{{release_path}}'
+
