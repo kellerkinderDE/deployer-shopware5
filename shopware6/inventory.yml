@@ -10,8 +10,8 @@
 
 stage.customer.tld: &remote_base
   <<: *base
-  hostname: 10.0.0.1
-  user: root
+  hostname: stage.customer.tld
+  user: deploy
   stage: staging
   branch: staging
   cachetool: /var/run/php5-fpm.sock
@@ -22,21 +22,10 @@ stage.customer.tld: &remote_base
 www.customer.tld:
   <<: *remote_base
   hostname: 10.0.0.2
+  user: deploy
   stage: production
   branch: master
   cachetool: /var/run/php5-fpm.sock
   deploy_path: /var/www/www.customer.tld
   rsync_src: '{{shopware_build_path}}'
   rsync_dest: '{{release_path}}'
-
-localhost:
-  <<: *base
-  local: true
-  hostname: localhost
-  user: root
-  http_user: root
-  stage: test
-  deploy_path: /tmp/deploy
-  rsync_src: '{{shopware_build_path}}'
-  rsync_dest: '{{release_path}}'
-

@@ -1,5 +1,11 @@
+before_script:
+  - eval $(ssh-agent -s)
+  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+  - mkdir -p ~/.ssh
+  - chmod 700 ~/.ssh
+
 stages:
-  - build
+  - deploy
 
 variables:
   MYSQL_DATABASE: ci_db
@@ -8,11 +14,24 @@ variables:
   MYSQL_SERVER: mysql
   MYSQL_ROOT_PASSWORD: root
 
-build-sw6:
-  stage: build
+deploy-staging:
+  stage: deploy
+  only:
+    - staging
   image: edbizarro/gitlab-ci-pipeline-php:7.2-alpine
   services:
     - name: mysql:5.7
   script:
     - composer install -q
-    - php vendor/bin/dep deploy:production production -vvv
+    - php vendor/bin/dep deploy:staging staging
+
+deploy-production:
+  stage: deploy
+  only:
+    - master
+  image: edbizarro/gitlab-ci-pipeline-php:7.2-alpine
+  services:
+    - name: mysql:5.7
+  script:
+    - composer install -q
+    - php vendor/bin/dep deploy:production production

@@ -7,10 +7,10 @@ on:
     branches: [ master ]
 
 jobs:
-  test-sw6:
-    name: Test SW6
+  deploy-production:
+    name: Deploy to production
     runs-on: ubuntu-latest
-    container: kellerkinder/deployer:sw6
+    container: edbizarro/gitlab-ci-pipeline-php:7.2-alpine
     services:
       mysql:
         image: mysql:5.7
@@ -28,5 +28,4 @@ jobs:
       - name: execute
         run: |
           composer install -q
-          php vendor/bin/dep deploy:test test -vvv
-          ls -la /tmp/deploy/current/
+          php vendor/bin/dep deploy:production production

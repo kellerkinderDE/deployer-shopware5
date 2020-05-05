@@ -85,6 +85,7 @@ Within your deploy path deployer will create several directories:
 * `shared/`: Place your `config.php` and `sw-domain-hash.html` here. Also a good place for the `.htaccess`, if it's not identical to the one shipped with shopware.
 * `shared/media`: Place your media files here. deployer will symlink them into the shopware root directory across all releases.
 * `shared/files`: Same as above but for the document and download files.
+* `shared/var/log`: Contains all log files of Shopware.
 
 The shared directories and files are configured in `deploy.php`. You can add more by using `add` in the `deploy.php`, e.g. `add('shared_files', ['.htaccess']);`.
 

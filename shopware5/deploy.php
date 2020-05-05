@@ -14,6 +14,11 @@ add('shared_dirs', [
     'files',
     'var/log',
 ]);
+add('create_shared_dirs', [
+    'media',
+    'files',
+    'var/log',
+]);
 add('writable_dirs', [
     'var/cache',
     'web/cache',
