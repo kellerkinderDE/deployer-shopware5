@@ -1,5 +1,5 @@
 stages:
-  - build
+  - deploy
 
 variables:
   MYSQL_DATABASE: ci_db
@@ -7,13 +7,34 @@ variables:
   MYSQL_PASSWORD: app
   MYSQL_ROOT_PASSWORD: root
 
-build-sw5:
-  stage: build
+before_script:
+  - eval $(ssh-agent -s)
+  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+  - mkdir -p ~/.ssh
+  - chmod 700 ~/.ssh
+
+deploy-staging:
+  stage: deploy
+  only:
+    refs:
+      - staging
   image: edbizarro/gitlab-ci-pipeline-php:7.2-alpine
   services:
     - name: mysql:5.7
       alias: mysql
   script:
     - composer install -q
-    - php vendor/bin/dep deploy:test test -vvv
-    - ls -la /tmp/deploy/current/ # ensure that everything worked fine
+    - php vendor/bin/dep deploy:staging staging
+
+deploy-production:
+  stage: deploy
+  only:
+    refs:
+      - master
+  image: edbizarro/gitlab-ci-pipeline-php:7.2-alpine
+  services:
+    - name: mysql:5.7
+      alias: mysql
+  script:
+    - composer install -q
+    - php vendor/bin/dep deploy:production production

@@ -7,7 +7,7 @@ require 'deploy-shopware5.php';
 // Deployer specific
 set('application', 'my_shopware5_project');
 set('php', '/usr/local/bin/php');
-add('shared_files', ['config.php']);
+add('shared_files', ['config.php', 'sw-domain-hash.html']);
 add('executable_files', ['bin/console']);
 add('shared_dirs', [
     'media',
@@ -21,7 +21,6 @@ add('writable_dirs', [
 set('allow_anonymous_stats', false);
 set('keep_releases', 10);
 
-
 // Shopware / deployment specific
 set('shopware_install_url', 'https://www.shopware.com/de/Download/redirect/version/sw5/file/install_5.6.6_f8cbea93398b121a4471c35795ce1a8822176d32.zip');
 set('shopware_update_url', 'https://www.shopware.com/de/Download/redirect/version/sw5/file/update_5.6.6_a2550f4807e2ae04beb25a0669d8dc400b13c9d2.zip');
@@ -29,8 +28,6 @@ set('shopware_target_version', '5.6.6'); // Change to check if update is require
 // Will copy the source into the target during build
 set('source_directory', 'web');
 set('plugins', [
-    'K10rStaging',
-    'K10rDeployment',
     'K10rExamplePlugin',
     //'K10rProject',
 ]);
@@ -38,11 +35,17 @@ set('plugins', [
 set('composer_plugins', [
     'k10r/staging:1.0.3',
     'k10r/deployment:1.2.0',
+    'frosh/mail-catcher:1.2.0',
 ]);
 /**
  * Warming the cache may take some time therefore it is not enabled by default. Set to true if you wish to warm up the cache after every deployment.
  */
 set('warm_cache_after_deployment', false);
+
+//TODO: enable after the socket is configured
+//after('deploy:symlink', 'cachetool:clear:apc');
+//after('deploy:symlink', 'cachetool:clear:opcache');
+//after('deploy:symlink', 'cachetool:clear:apcu');
 
 /**
  * Use this to set plugin configurations during deployment
